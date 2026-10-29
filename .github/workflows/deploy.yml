@@ -37,6 +37,8 @@ jobs:
 
       - name: Build project
         run: npm run build
+        env:
+          VITE_APP_ID: ${{ secrets.VITE_APP_ID }}
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5

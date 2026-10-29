@@ -337,10 +337,14 @@ function Climate() {
       <div className="weather-glow weather-glow-two" />
 
       <header className="app-header">
-        <a className="brand" href="/" aria-label="WeatherNow home">
+        <a
+          className="brand"
+          href={import.meta.env.BASE_URL}
+          aria-label="WeatherNow home"
+        >
           <img
             className="brand-logo"
-            src="/weather-logo.png"
+            src={`${import.meta.env.BASE_URL}weather-logo.png`}
             alt="WeatherNow logo"
           />
 
