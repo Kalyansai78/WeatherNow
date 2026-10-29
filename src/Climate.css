@@ -1,3 +1,61 @@
+/* Header actions and temperature unit toggle */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.temperature-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 12px;
+  border: 1px solid #d7e4f7;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #7185a5;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.temperature-toggle:hover {
+  border-color: #8bb8ff;
+  background: #ffffff;
+}
+
+.temperature-toggle:active {
+  transform: scale(0.97);
+}
+
+.temperature-toggle .unit-active {
+  color: #3978e8;
+}
+
+.temperature-toggle .unit-divider {
+  color: #b7c5da;
+}
+
+.temperature-toggle:focus-visible {
+  outline: 2px solid #3978e8;
+  outline-offset: 3px;
+}
+
+@media (max-width: 650px) {
+  .header-actions {
+    gap: 10px;
+  }
+
+  .temperature-toggle {
+    padding: 7px 9px;
+    font-size: 12px;
+  }
+}
+
 .weather-page {
   position: relative;
   min-height: 100vh;

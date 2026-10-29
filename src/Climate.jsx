@@ -39,12 +39,17 @@ const WEATHER_ICONS = {
   '50n': cloudIcon,
 };
 
-function formatDate() {
+function formatDate(timezoneOffset = 0) {
+  const cityTime = new Date(
+    Date.now() + timezoneOffset * 1000
+  );
+
   return new Intl.DateTimeFormat('en', {
     weekday: 'long',
     month: 'long',
     day: 'numeric',
-  }).format(new Date());
+    timeZone: 'UTC',
+  }).format(cityTime);
 }
 
 function getWeatherTheme(condition, iconCode, windSpeedMs = 0) {
@@ -96,7 +101,6 @@ function formatLocalTime(unixTime, timezoneOffset) {
   });
 }
 
-
 function getForecastLocalDate(timestamp, timezoneOffset = 0) {
   return new Date(
     (timestamp + timezoneOffset) * 1000
@@ -121,6 +125,25 @@ function Climate() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [forecast, setForecast] = useState([]);
+
+  const [temperatureUnit, setTemperatureUnit] = useState(
+    () => localStorage.getItem('weatherTemperatureUnit') || 'C'
+  );
+
+  const convertTemperature = (celsius) => {
+    if (temperatureUnit === 'F') {
+      return Math.round((celsius * 9) / 5 + 32);
+    }
+
+    return Math.round(celsius);
+  };
+
+  const toggleTemperatureUnit = () => {
+    const nextUnit = temperatureUnit === 'C' ? 'F' : 'C';
+
+    setTemperatureUnit(nextUnit);
+    localStorage.setItem('weatherTemperatureUnit', nextUnit);
+  };
 
   const requestId = useRef(0);
 
@@ -326,10 +349,30 @@ function Climate() {
           </span>
         </a>
 
-        <span className="header-label">
-          <span className="status-dot" />
-          LIVE WEATHER
-        </span>
+        <div className="header-actions">
+          <button
+            type="button"
+            className="temperature-toggle"
+            onClick={toggleTemperatureUnit}
+            aria-label={`Switch to ${
+              temperatureUnit === 'C' ? 'Fahrenheit' : 'Celsius'
+            }`}
+            title="Change temperature unit"
+          >
+            <span className={temperatureUnit === 'C' ? 'unit-active' : ''}>
+              °C
+            </span>
+            <span className="unit-divider">/</span>
+            <span className={temperatureUnit === 'F' ? 'unit-active' : ''}>
+              °F
+            </span>
+          </button>
+
+          <span className="header-label">
+            <span className="status-dot" />
+            LIVE WEATHER
+          </span>
+        </div>
       </header>
 
       <section className="weather-dashboard">
@@ -400,15 +443,15 @@ function Climate() {
                     <h2>
                       {weather.city}, {weather.country}
                     </h2>
-                    <p>{formatDate()}</p>
+                    <p>{formatDate(weather.timezone)}</p>
                   </div>
                 </div>
 
                 <div className="temperature-block">
                   <div>
                     <p className="temperature">
-                      {weather.temperature}
-                      <span>°C</span>
+                      {convertTemperature(weather.temperature)}
+                      <span>°{temperatureUnit}</span>
                     </p>
 
                     <p className="weather-description">
@@ -425,16 +468,18 @@ function Climate() {
 
                 <div className="temperature-range">
                   <span>
-                    <span aria-hidden="true">↑</span> {weather.maxTemp}°
+                    <span aria-hidden="true">↑</span> {convertTemperature(weather.maxTemp)}°
                     <span className="range-label"> High</span>
                   </span>
 
                   <span>
-                    <span aria-hidden="true">↓</span> {weather.minTemp}°
+                    <span aria-hidden="true">↓</span> {convertTemperature(weather.minTemp)}°
                     <span className="range-label"> Low</span>
                   </span>
 
-                  <span>Feels like {weather.feelsLike}°C</span>
+                  <span>
+                    Feels like {convertTemperature(weather.feelsLike)}°{temperatureUnit}
+                  </span>
                 </div>
               </div>
 
@@ -477,7 +522,7 @@ function Climate() {
                     />
 
                     <p className="forecast-temperature">
-                      {Math.round(item.main.temp)}°C
+                      {convertTemperature(item.main.temp)}°{temperatureUnit}
                     </p>
 
                     <p className="forecast-description">
@@ -528,8 +573,8 @@ function Climate() {
                     </p>
 
                     <div className="daily-temperatures">
-                      <strong>{day.max}°</strong>
-                      <span>{day.min}°</span>
+                      <strong>{convertTemperature(day.max)}°</strong>
+                      <span>{convertTemperature(day.min)}°</span>
                     </div>
                   </article>
                 ))}
