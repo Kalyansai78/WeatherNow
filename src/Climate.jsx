@@ -119,12 +119,19 @@ function getForecastLocalHour(timestamp, timezoneOffset = 0) {
   });
 }
 
+function getCurrentLocalDate(timezoneOffset = 0) {
+  return new Date(Date.now() + timezoneOffset * 1000)
+    .toISOString()
+    .slice(0, 10);
+}
+
 function Climate() {
   const [city, setCity] = useState('');
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [forecast, setForecast] = useState([]);
+  const [forecastError, setForecastError] = useState('');
 
   const [temperatureUnit, setTemperatureUnit] = useState(
     () => localStorage.getItem('weatherTemperatureUnit') || 'C'
@@ -207,6 +214,7 @@ function Climate() {
 
     setLoading(true);
     setError('');
+    setForecastError('');
 
     try {
       const url = new URL(
@@ -297,11 +305,15 @@ function Climate() {
         }
 
         setForecast(forecastData.list || []);
+        setForecastError('');
       } catch (forecastErr) {
         if (currentRequest !== requestId.current) return;
 
         console.error('Forecast request failed:', forecastErr);
         setForecast([]);
+        setForecastError(
+          'The forecast is temporarily unavailable. Please search again later.'
+        );
       }
     } catch (err) {
       if (currentRequest !== requestId.current) return;
@@ -409,6 +421,13 @@ function Climate() {
           <div className="error-message" role="alert">
             <span aria-hidden="true">!</span>
             <p>{error}</p>
+          </div>
+        )}
+
+        {forecastError && weather && (
+          <div className="error-message" role="alert">
+            <span aria-hidden="true">!</span>
+            <p>{forecastError}</p>
           </div>
         )}
 
@@ -551,7 +570,7 @@ function Climate() {
                   <article className="daily-card" key={day.date}>
                     <div className="daily-date">
                       <strong>
-                        {index === 0
+                        {day.date === getCurrentLocalDate(weather?.timezone || 0)
                           ? 'Today'
                           : new Date(`${day.date}T12:00:00Z`).toLocaleDateString(
                               'en-US',

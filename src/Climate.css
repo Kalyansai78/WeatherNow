@@ -1,4 +1,3 @@
-/* Header actions and temperature unit toggle */
 .header-actions {
   display: flex;
   align-items: center;
@@ -481,6 +480,7 @@
 }
 
 .detail-card {
+  position: relative;
   min-width: 0;
   padding: 21px;
   border: 1px solid #dce5f2;
@@ -657,17 +657,15 @@
   }
 }
 
-
-/* ========================================
-   WEATHER-BASED DYNAMIC THEMES
-======================================== */
+/* Weather Based Dynamic Themes */
 
 .weather-page {
   isolation: isolate;
   transition: background 0.8s ease;
 }
 
-/* Sunny day */
+/* Sunny Day */
+
 .weather-page.theme-sunny {
   background:
     radial-gradient(
@@ -693,7 +691,8 @@
   background: linear-gradient(135deg, #f6b83f, #f28b45);
 }
 
-/* Cloudy day */
+/* Cloudy Day */
+
 .weather-page.theme-cloudy {
   background:
     radial-gradient(ellipse at 80% 0%, #dce8f3, transparent 38%),
@@ -704,7 +703,8 @@
   background: linear-gradient(135deg, #e4edf7, #ffffff);
 }
 
-/* Rainy weather */
+/* Rainy Weather */
+
 .weather-page.theme-rainy {
   background:
     radial-gradient(ellipse at 80% 0%, #c5ddf4, transparent 40%),
@@ -721,6 +721,7 @@
 }
 
 /* Thunderstorms */
+
 .weather-page.theme-stormy {
   background:
     radial-gradient(ellipse at 85% 0%, #d5d5ed, transparent 38%),
@@ -733,6 +734,7 @@
 }
 
 /* Snow */
+
 .weather-page.theme-snowy {
   background:
     radial-gradient(circle at 80% 8%, #ffffff, transparent 32%),
@@ -744,7 +746,8 @@
   background: linear-gradient(135deg, #38a5df, #4f78e9);
 }
 
-/* Fog, mist and haze */
+/* Fog , Mist And Haze */
+
 .weather-page.theme-misty {
   background:
     radial-gradient(ellipse at 75% 0%, #e3eaf0, transparent 42%),
@@ -756,7 +759,8 @@
   background: linear-gradient(135deg, #8399ad, #607d99);
 }
 
-/* Windy conditions */
+/* Windy Conditions */
+
 .weather-page.theme-windy {
   background:
     radial-gradient(ellipse at 80% 0%, #bcefe8, transparent 38%),
@@ -768,7 +772,8 @@
   background: linear-gradient(135deg, #22a99a, #428de0);
 }
 
-/* Clear night */
+/* Clear Night */
+
 .weather-page.theme-clear-night {
   background:
     radial-gradient(ellipse at 80% 0%, #d8def8, transparent 35%),
@@ -780,7 +785,8 @@
   background: linear-gradient(135deg, #777bd8, #5964b9);
 }
 
-/* Cloudy night */
+/* Cloudy Night */
+
 .weather-page.theme-cloudy-night {
   background:
     radial-gradient(ellipse at 80% 0%, #d8e0ed, transparent 35%),
@@ -792,7 +798,8 @@
   background: linear-gradient(135deg, #8294b7, #6678a7);
 }
 
-/* Decorative weather effects */
+/* Decorative Weather Effects */
+
 .weather-page::before {
   content: "";
   position: absolute;
@@ -884,8 +891,8 @@
   }
 }
 
+/* WeatherNow Dynamic Accent Colors */
 
-/* WeatherNow: dynamic accent colors */
 .weather-page.theme-sunny {
   --weather-accent: #e9a11b;
   --weather-accent-light: #ffd166;
@@ -919,7 +926,8 @@
   --weather-accent-light: #b7c8f5;
 }
 
-/* Apply the current weather accent consistently */
+/* Apply The Current Weather Accent Consistently */
+
 .weather-page .brand-accent,
 .weather-page .eyebrow,
 .weather-page .side-note-label,
@@ -944,7 +952,8 @@
   ) !important;
 }
 
-/* Weather-themed logo tile */
+/* Weather Themed Logo Tile */
+
 .weather-page .brand-icon {
   background: linear-gradient(
     135deg,
@@ -955,7 +964,8 @@
     color-mix(in srgb, var(--weather-accent, #60a5fa) 20%, transparent);
 }
 
-/* WeatherNow logo - increased size */
+/* WeatherNow Logo Increased Size */
+
 .brand-logo {
   display: block;
   width: 55px;
@@ -968,11 +978,7 @@
   box-shadow: none;
 }
 
-
-/* Weather breakdown card icons */
-.detail-card {
-  position: relative;
-}
+/* Weather Breakdown Card Icons */
 
 .detail-card-icon {
   position: absolute;
@@ -992,7 +998,8 @@
   transform: translateY(-2px);
 }
 
-/* Individual icon colors */
+/* Individual Icon Colors */
+
 .humidity-icon {
   color: #4d83d5;
   background: #edf5ff;
@@ -1023,19 +1030,60 @@
   background: #fff0e8;
 }
 
-/* Smaller icons on mobile */
+/* Smaller Icons On Mobile */
+
 @media (max-width: 480px) {
   .detail-card-icon {
-    top: 20px;
-    right: 20px;
-    width: 46px;
-    height: 46px;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
     border-radius: 13px;
   }
 
   .detail-card-icon svg {
     width: 25px;
     height: 25px;
+  }
+
+  .app-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .brand {
+    min-width: 0;
+    flex-shrink: 1;
+  }
+
+  .brand-logo {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    min-width: 0;
+    flex-shrink: 1;
+  }
+
+  .header-label {
+    font-size: 10px;
+    white-space: normal;
+    line-height: 1.3;
+    max-width: 70px;
+    overflow-wrap: anywhere;
+  }
+
+  .temperature-toggle {
+    flex-shrink: 0;
   }
 }
 
@@ -1045,8 +1093,8 @@
   }
 }
 
+/* Forecast Sections */
 
-/* Forecast sections */
 .forecast-section {
   margin-top: 30px;
 }
@@ -1160,4 +1208,32 @@
   .daily-card {
     transition: none;
   }
+}
+
+/* Hide The Scrollbar While Keeping Page Scrolling Enabled */
+
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Remove The Inner Blue Outline From The Search Input */
+
+.weather-page .search-bar input:focus,
+.weather-page .search-bar input:focus-visible {
+  outline: none;
+  box-shadow: none;
 }
