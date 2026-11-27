@@ -70,6 +70,7 @@ The project was designed with a focus on a modern user interface, responsive lay
 
 ## 📁 Project Structure
 
+```text
 WeatherNow/
 │
 ├── public/
@@ -79,7 +80,7 @@ WeatherNow/
 │   ├── home.png
 │   ├── current-weatherconditions.png
 │   └── mobile.png
-|
+│
 ├── src/
 │   ├── Climate.jsx
 │   ├── Climate.css
@@ -97,6 +98,7 @@ WeatherNow/
 ├── package-lock.json
 ├── vite.config.js
 └── README.md
+```
 
 ## 🚀 Getting Started
 
